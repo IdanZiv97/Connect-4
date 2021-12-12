@@ -32,11 +32,33 @@ def find_next_open_slot(board, col):
 def print_board(board):
     print(np.flip(board, 0))
 
+# check for winning player
+def check_board(board, player):
+    # Check horizontal locations for win
+	for c in range(NUM_COLS-3):
+		for r in range(NUM_ROWS):
+			if board[r][c] == player and board[r][c+1] == player and board[r][c+2] == player and board[r][c+3] == player:
+				return True
+
+	# Check vertical locations for win
+	for c in range(NUM_COLS):
+		for r in range(NUM_ROWS-3):
+			if board[r][c] == player and board[r+1][c] == player and board[r+2][c] == player and board[r+3][c] == player:
+				return True
+
+	# Check positively sloped diaganols
+	for c in range(NUM_COLS-3):
+		for r in range(NUM_ROWS-3):
+			if board[r][c] == player and board[r+1][c+1] == player and board[r+2][c+2] == player and board[r+3][c+3] == player:
+				return True
+
+
 # game engine
 game_over = False
 board = create_board()
 print_board(board)
 turn = PLAYER1
+winner = ""
 while not game_over:
     if turn == PLAYER1:
         col = int(input("Player 1 enter a row index (0-6)"))
@@ -50,5 +72,11 @@ while not game_over:
             row = find_next_open_slot(board, col)
             play_turn(board, col, row, PLAYER2)
         turn = PLAYER1
+    if check_board(board, PLAYER1):
+        winner = "winner is player1"
+        game_over = True
+    if check_board(board, PLAYER2):
+        winner = "winner is player2"
+        game_over = True
     print_board(board)
-
+print(winner)
