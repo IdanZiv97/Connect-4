@@ -124,13 +124,4 @@ def create_board():
     for x in range(BOARD_ROWS):
         board.append([EMPTY] * BOARD_COLUMNS)
     return board
-
-def main():
-    run()
-    board = create_board()
-    draw_board(board)
-    while True:
-        pygame.display.update()
-
-main()
     
