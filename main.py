@@ -20,8 +20,8 @@ class Game:
             self.turn = GUI.PLAYER1
     
     def get_next_open_slot(self, board, column):
-        for row in range(GUI.BOARD_ROWS):
-            if board[row][column] == GUI.EMPTY:
+        for row in range(GUI.BOARD_ROWS, -1, -1):
+            if board[column][row] == GUI.EMPTY:
                 return row
 
     def make_move(self, player):
@@ -43,12 +43,12 @@ class Game:
                 print("\n Invalid move")
         # create the animation of dropping the disc
         #update the the board
-        board[self.get_next_open_slot(board, column)][column] == player
+        self.board[column][self.get_next_open_slot(self.board, column)] = player
 
 
     
     def isValidColumn(self, board, column) -> bool:
-        if board[0][column] is GUI.EMPTY:
+        if board[column][0] is GUI.EMPTY:
             return True
         else:
             return False
