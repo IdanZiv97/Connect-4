@@ -19,7 +19,7 @@ class Game:
             self.make_move(GUI.PLAYER2)
             self.turn = GUI.PLAYER1
     
-    def get_next_open_slot(board, column):
+    def get_next_open_slot(self, board, column):
         for row in range(GUI.BOARD_ROWS):
             if board[row][column] == GUI.EMPTY:
                 return row
