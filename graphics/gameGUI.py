@@ -80,7 +80,7 @@ def dragTokenEvent(board, player):
             if token_xValue is None: # you only need to check one of the cordinates
                 draw_board(board)
             else:
-                draw_board(board, {'xValue': token_xValue - int(SPACE , 2), 'yValue': token_yValue - int(SPACE / 2),'player': player})
+                draw_board(board, {'xValue': token_xValue - int(SPACE / 2), 'yValue': token_yValue - int(SPACE / 2),'player': player})
             refresh()
 
 
