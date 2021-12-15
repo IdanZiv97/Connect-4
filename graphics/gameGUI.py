@@ -83,6 +83,20 @@ def dragTokenEvent(board, player):
                 draw_board(board, {'xValue': token_xValue - int(SPACE / 2), 'yValue': token_yValue - int(SPACE / 2),'player': player})
             refresh()
 
+def droppingTokenAnimation(board, column, player, stop):
+    xValue = X_MARGIN + column * SPACE
+    yValue = Y_MARGIN - SPACE
+    speed = 2
+    
+    while True:
+        yValue += speed
+        speed += 2
+        # check if we reach the proper location - stop
+        if int((yValue - Y_MARGIN) / SPACE) >= stop:
+            return
+        # draw the board with the extra disk
+        draw_board(board, {'xValue': xValue, 'yValue': yValue, 'player': player})
+        refresh()
 
 def refresh():
     pygame.display.update()
@@ -124,4 +138,3 @@ def create_board():
     for x in range(BOARD_ROWS):
         board.append([EMPTY] * BOARD_COLUMNS)
     return board
-    

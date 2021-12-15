@@ -4,13 +4,11 @@ class Game:
     def __init__(self, game_board):
         self.board = game_board
         self.turn = GUI.PLAYER1
+        self.winner = None
 
-    def is_over(self):
-       result = self.check_board(board, self.turn)
-    
-    def check_board(self, board, player):
+    # check for winner
+    def is_game_over(self):
         pass
-
     def play_next_turn(self):
         if self.turn == GUI.PLAYER1:
             self.make_move(GUI.PLAYER1)
@@ -42,7 +40,9 @@ class Game:
             if column is None:
                 print("\n Invalid move")
         # create the animation of dropping the disc
-        #update the the board
+        # animate
+        GUI.droppingTokenAnimation(self.board, column, player, self.get_next_open_slot(self.board, column))
+        
         self.board[column][self.get_next_open_slot(self.board, column)] = player
 
 
@@ -61,7 +61,7 @@ if __name__ == "__main__":
         GUI.draw_board(board)
         GUI.refresh()
         game = Game(board)
-        while True:
+        while not game.is_game_over():
             game.play_next_turn()
             GUI.draw_board(game.board)
             GUI.refresh()
