@@ -1,82 +1,68 @@
-import numpy as np
+from graphics import gameGUI as GUI
 
-PLAYER1 = 1
-PLAYER2 = 2
-NUM_ROWS = 6
-NUM_COLS = 7
-TOP_ROW = NUM_ROWS -1
+class Game:
+    def __init__(self, game_board):
+        self.board = game_board
+        self.turn = GUI.PLAYER1
 
-def create_board():
-    """
-    this function creates the 
-    """
-    board = np.zeros((NUM_ROWS,NUM_COLS))
-    return board
+    def is_over(self):
+       result = self.check_board(board, self.turn)
+    
+    def check_board(self, board, player):
+        pass
 
-def is_valid_column(board, column):
-    """
-    Checks if the column inserted by the user is full or not:
-    if the row is full than the top element should have the value 1, else the value 0
-    """
-    return board[TOP_ROW][column] == 0
+    def play_next_turn(self):
+        if self.turn == GUI.PLAYER1:
+            self.make_move(GUI.PLAYER1)
+            self.turn = GUI.PLAYER2
+        else: # PLAYER2 move
+            self.make_move(GUI.PLAYER2)
+            self.turn = GUI.PLAYER1
+    
+    def get_next_open_slot(board, column):
+        for row in range(GUI.BOARD_ROWS):
+            if board[row][column] == GUI.EMPTY:
+                return row
 
-def play_turn(board, col, row, disc):
-    # place the disc
-    board[row][col] = disc
-
-def find_next_open_slot(board, col):
-    for row in range(NUM_ROWS):
-        if board[row][col] == 0:
-            return row
-
-def print_board(board):
-    print(np.flip(board, 0))
-
-# check for winning player
-def check_board(board, player):
-    # Check horizontal locations for win
-	for c in range(NUM_COLS-3):
-		for r in range(NUM_ROWS):
-			if board[r][c] == player and board[r][c+1] == player and board[r][c+2] == player and board[r][c+3] == player:
-				return True
-
-	# Check vertical locations for win
-	for c in range(NUM_COLS):
-		for r in range(NUM_ROWS-3):
-			if board[r][c] == player and board[r+1][c] == player and board[r+2][c] == player and board[r+3][c] == player:
-				return True
-
-	# Check positively sloped diaganols
-	for c in range(NUM_COLS-3):
-		for r in range(NUM_ROWS-3):
-			if board[r][c] == player and board[r+1][c+1] == player and board[r+2][c+2] == player and board[r+3][c+3] == player:
-				return True
+    def make_move(self, player):
+        """
+        We need tp get the column for the user by dragging mouse so we need to 
+        handle it from the GUI
+        """
+        column = None
+        # keep running until you find a column
+        while column is None:
+            column = GUI.dragTokenEvent(self.board, player)
+            # check for correct column index
+            if not column <= column <= GUI.BOARD_COLUMNS - 1:
+                column = None
+            # check if column is empty
+            if not self.isValidColumn(self.board, column):
+                column = None
+            if column is None:
+                print("\n Invalid move")
+        # create the animation of dropping the disc
+        #update the the board
+        board[self.get_next_open_slot(board, column)][column] == player
 
 
-# game engine
-game_over = False
-board = create_board()
-print_board(board)
-turn = PLAYER1
-winner = ""
-while not game_over:
-    if turn == PLAYER1:
-        col = int(input("Player 1 enter a row index (0-6)"))
-        if is_valid_column(board, col):
-            row = find_next_open_slot(board, col)
-            play_turn(board, col, row, PLAYER1)
-        turn = PLAYER2
-    else: # turn == PLAYER2
-        col = int(input("Player 2 enter a row index (0-6)"))
-        if is_valid_column(board, col):
-            row = find_next_open_slot(board, col)
-            play_turn(board, col, row, PLAYER2)
-        turn = PLAYER1
-    if check_board(board, PLAYER1):
-        winner = "winner is player1"
-        game_over = True
-    if check_board(board, PLAYER2):
-        winner = "winner is player2"
-        game_over = True
-    print_board(board)
-print(winner)
+    
+    def isValidColumn(self, board, column) -> bool:
+        if board[0][column] is GUI.EMPTY:
+            return True
+        else:
+            return False
+
+if __name__ == "__main__":
+    print("Starting Connect-4 game..\n")
+    GUI.run()
+    while True:
+        board = GUI.create_board()
+        GUI.draw_board(board)
+        GUI.refresh()
+        game = Game(board)
+        while True:
+            game.play_next_turn()
+            GUI.draw_board(game.board)
+            GUI.refresh()
+        
