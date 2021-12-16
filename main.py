@@ -42,9 +42,7 @@ class Game:
         # create the animation of dropping the disc
         # animate
         GUI.droppingTokenAnimation(self.board, column, player, self.get_next_open_slot(self.board, column))
-        
         self.board[column][self.get_next_open_slot(self.board, column)] = player
-
 
     
     def isValidColumn(self, board, column) -> bool:

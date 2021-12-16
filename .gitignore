@@ -1,3 +1,4 @@
 .venv
-_pycache_
 *.pyc
+_pycache_/*
+*.pdf
