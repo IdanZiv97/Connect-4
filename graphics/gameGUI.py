@@ -29,6 +29,7 @@ FPS = 30 # refresh rate
 def run():
     global DISPLAY, RED_TOKEN, BLACK_TOKEN, BOARD_CELL
     global RED_START_POSITION, BLACK_START_POSITION, CLOCK
+    global END_IMAGE_POSITION, P1_WINNER, P2_WINNER
     pygame.init()
     DISPLAY = pygame.display.set_mode((GUI_WIDTH, GUI_HEIGHT))
     pygame.display.set_caption('Connect-4')
@@ -40,10 +41,16 @@ def run():
     # load board cell - we will construct the board from this one image
     BOARD_CELL = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/board.png")
     BOARD_CELL = pygame.transform.smoothscale(BOARD_CELL, (SPACE, SPACE))
+    # end sequence objects
+    P1_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player1_winner.png")
+    P1_WINNER = pygame.transform.smoothscale(P1_WINNER, (SPACE * 4, SPACE * 4))
+    P2_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player2_winner.png")
+    P2_WINNER = pygame.transform.smoothscale(P2_WINNER, (SPACE * 4, SPACE * 4))
 
-    # create place holder for player's tokens - will use as drawing canvas
+    # create place holder for non-moving objects - will use as drawing canvas
     RED_START_POSITION = pygame.Rect(int(SPACE / 2), GUI_HEIGHT - int(3 * SPACE / 2), SPACE, SPACE)
     BLACK_START_POSITION = pygame.Rect(GUI_WIDTH - int(3 * SPACE / 2), GUI_HEIGHT - int(3 * SPACE / 2), SPACE, SPACE)
+    END_IMAGE_POSITION = pygame.Rect(int(GUI_WIDTH / 2) - int(2 * SPACE), int(GUI_HEIGHT / 2) - int(SPACE * 2), SPACE * 4, SPACE * 4)
     
     CLOCK = pygame.time.Clock()
 
@@ -138,3 +145,18 @@ def create_board():
     for x in range(BOARD_ROWS):
         board.append([EMPTY] * BOARD_COLUMNS)
     return board
+
+def end_sequence(winner):
+    image = P1_WINNER if winner == PLAYER1 else P2_WINNER
+    DISPLAY.fill(WHITE)
+    canvas = END_IMAGE_POSITION
+    DISPLAY.blit(image, canvas)
+    refresh()
+    pygame.display.set_caption("Press anywhere to play again!")
+    while True:
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEBUTTONDOWN:
+                return

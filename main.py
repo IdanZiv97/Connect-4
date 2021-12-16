@@ -1,4 +1,3 @@
-import sys
 from pygame.display import set_caption
 
 import pygame
@@ -113,8 +112,5 @@ if __name__ == "__main__":
             game.play_next_turn()
             GUI.draw_board(game.board)
             GUI.refresh()
-        print("Winner is: ")
-        print(game.winner)
-        pygame.quit()
-        sys.exit()
+        GUI.end_sequence(game.winner)
         
