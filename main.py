@@ -1,4 +1,7 @@
-from typing import Pattern
+import sys
+from pygame.display import set_caption
+
+import pygame
 from graphics import gameGUI as GUI
 import numpy as np
 from scipy.signal import convolve2d
@@ -21,21 +24,32 @@ class Game:
         player2_board = (arr == 2)
         player1_board = player1_board.astype(int)
         player2_board = player2_board.astype(int)
-        for pattern in patterns:
-            if ((convolve2d(player1_board, pattern, mode="valid")) == 4).any():
-                result1 = True
-                break
-        for pattern in patterns:
-            if (convolve2d(player2_board, pattern, mode="valid") == 4).any():
-                result2 = True
-                break
-        
+        # check for winner
+        if self.is_winner(player1_board):
+            self.winner = GUI.PLAYER1
+            return True
+        elif self.is_winner(player2_board):
+            self.winner = GUI.PLAYER2
+            return True
+        # check for draw
+        elif self.open_slots == 0:
+            self.winner = "draw"
+            return True
+        return False
     
+    def is_winner(self, board):
+        for pattern in patterns:
+            if ((convolve2d(board, pattern, mode="valid")) == 4).any():
+                return True
+        return False
+
     def play_next_turn(self):
         if self.turn == GUI.PLAYER1:
+            set_caption("Connect-4 -- Player 1: Make Your Move..")
             self.make_move(GUI.PLAYER1)
             self.turn = GUI.PLAYER2
         else: # PLAYER2 move
+            set_caption("Connect-4 -- Player 2: Make Your Move..")
             self.make_move(GUI.PLAYER2)
             self.turn = GUI.PLAYER1
     
@@ -62,9 +76,10 @@ class Game:
             if column is None:
                 print("\n Invalid move")
         # create the animation of dropping the disc
-        # animate
         GUI.droppingTokenAnimation(self.board, column, player, self.get_next_open_slot(self.board, column))
+        # update board
         self.board[column][self.get_next_open_slot(self.board, column)] = player
+        self.open_slots -= 1
 
     
     def isValidColumn(self, board, column) -> bool:
@@ -98,4 +113,8 @@ if __name__ == "__main__":
             game.play_next_turn()
             GUI.draw_board(game.board)
             GUI.refresh()
+        print("Winner is: ")
+        print(game.winner)
+        pygame.quit()
+        sys.exit()
         
