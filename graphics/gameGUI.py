@@ -9,7 +9,6 @@ BLUE = (0, 0, 255)
 GUI_WIDTH = 640
 GUI_HEIGHT = 480
 BACKGROUND_COLOR = WHITE
-TEXT_COLOR = BLUE
 
 # Board Dimensions
 SPACE = 50
@@ -116,34 +115,35 @@ def draw_board(board, drag_token=None):
     # creating a surface to draw on, since the blit function requires a rectangle object
     canvas = pygame.Rect(0, 0, SPACE, SPACE)
     # draw the tokens
-    for row in range(BOARD_ROWS):
-        for column in range(BOARD_COLUMNS):
+    for row in range(BOARD_COLUMNS):
+        for column in range(BOARD_ROWS):
             canvas.topleft = (X_MARGIN + (row * SPACE), Y_MARGIN + (column * SPACE))
             if board[row][column] == PLAYER1:
                 DISPLAY.blit(RED_TOKEN, canvas)
             elif board[row][column] == PLAYER2:
-                DISPLAY.blit(BLACK_TOKEN, canvas)        
-    # draw the board cells - we draw it over the the tokens, and because all the tokens and board cells
-    # share the same dimensions we don't need to calculate the positioning of the tokens
-    for row in range(BOARD_ROWS):
-        for column in range(BOARD_COLUMNS):
-            canvas.topleft = (X_MARGIN + (row * SPACE), Y_MARGIN + (column * SPACE))
-            DISPLAY.blit(BOARD_CELL, canvas)
-
+                DISPLAY.blit(BLACK_TOKEN, canvas)     
     # In the case of a player dragging a token
     if drag_token != None:
         if drag_token['player'] == PLAYER1:
             DISPLAY.blit(RED_TOKEN, (drag_token['xValue'], drag_token['yValue'], SPACE, SPACE))
         else: # the other option
-            DISPLAY.blit(BLACK_TOKEN, (drag_token['xValue'], drag_token['yValue'], SPACE, SPACE))
+            DISPLAY.blit(BLACK_TOKEN, (drag_token['xValue'], drag_token['yValue'], SPACE, SPACE))   
+    # draw the board cells - we draw it over the the tokens, and because all the tokens and board cells
+    # share the same dimensions we don't need to calculate the positioning of the tokens
+    for row in range(BOARD_COLUMNS):
+        for column in range(BOARD_ROWS):
+            canvas.topleft = (X_MARGIN + (row * SPACE), Y_MARGIN + (column * SPACE))
+            DISPLAY.blit(BOARD_CELL, canvas)
+
+    
     # draw the players token
     DISPLAY.blit(RED_TOKEN, RED_START_POSITION)
     DISPLAY.blit(BLACK_TOKEN, BLACK_START_POSITION)
     
 def create_board():
     board = []
-    for x in range(BOARD_ROWS):
-        board.append([EMPTY] * BOARD_COLUMNS)
+    for x in range(BOARD_COLUMNS):
+        board.append([EMPTY] * BOARD_ROWS)
     return board
 
 def end_sequence(winner):

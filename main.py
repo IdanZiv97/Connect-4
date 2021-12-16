@@ -53,7 +53,7 @@ class Game:
             self.turn = GUI.PLAYER1
     
     def get_next_open_slot(self, board, column):
-        for row in range(GUI.BOARD_ROWS, -1, -1):
+        for row in range(GUI.BOARD_ROWS - 1, -1, -1):
             if board[column][row] == GUI.EMPTY:
                 return row
 
