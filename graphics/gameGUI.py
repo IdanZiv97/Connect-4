@@ -20,9 +20,9 @@ Y_MARGIN = int((GUI_HEIGHT - BOARD_ROWS * SPACE) / 2)
 
 
 # Game Objects
-PLAYER1 = '1'
-PLAYER2 = '2'
-EMPTY = None
+PLAYER1 = 1
+PLAYER2 = 2
+EMPTY = 0
 FPS = 30 # refresh rate
 
 # lets see if we can create a gui
