@@ -1,6 +1,4 @@
 from pygame.display import set_caption
-
-import pygame
 from graphics import gameGUI as GUI
 import numpy as np
 from scipy.signal import convolve2d
@@ -102,6 +100,7 @@ def create_patterns():
 if __name__ == "__main__":
     print("Starting Connect-4 game..\n")
     GUI.run()
+    GUI.welcome_screen()
     while True:
         board = GUI.create_board()
         GUI.draw_board(board)

@@ -28,9 +28,11 @@ FPS = 30 # refresh rate
 def run():
     global DISPLAY, RED_TOKEN, BLACK_TOKEN, BOARD_CELL
     global RED_START_POSITION, BLACK_START_POSITION, CLOCK
-    global END_IMAGE_POSITION, P1_WINNER, P2_WINNER
+    global END_IMAGE_POSITION, P1_WINNER, P2_WINNER, FONT
+    global TEXT_POSITION, TURN_INDICATOR, WELCOME_IMAGE, WELCOME_POSITION
     pygame.init()
     DISPLAY = pygame.display.set_mode((GUI_WIDTH, GUI_HEIGHT))
+    FONT = pygame.font.Font('freesansbold.ttf', 48)
     pygame.display.set_caption('Connect-4')
     # load player tokens
     RED_TOKEN = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/red_token.png")
@@ -45,12 +47,17 @@ def run():
     P1_WINNER = pygame.transform.smoothscale(P1_WINNER, (SPACE * 4, SPACE * 4))
     P2_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player2_winner.png")
     P2_WINNER = pygame.transform.smoothscale(P2_WINNER, (SPACE * 4, SPACE * 4))
+    # welcome screen
+    WELCOME_IMAGE = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/welcome.png")
+    WELCOME_IMAGE = pygame.transform.smoothscale(WELCOME_IMAGE, (SPACE * 5, SPACE * 5))
 
     # create place holder for non-moving objects - will use as drawing canvas
     RED_START_POSITION = pygame.Rect(int(SPACE / 2), GUI_HEIGHT - int(3 * SPACE / 2), SPACE, SPACE)
     BLACK_START_POSITION = pygame.Rect(GUI_WIDTH - int(3 * SPACE / 2), GUI_HEIGHT - int(3 * SPACE / 2), SPACE, SPACE)
     END_IMAGE_POSITION = pygame.Rect(int(GUI_WIDTH / 2) - int(2 * SPACE), int(GUI_HEIGHT / 2) - int(SPACE * 2), SPACE * 4, SPACE * 4)
-    
+    TURN_INDICATOR = pygame.Rect(int(SPACE / 2), Y_MARGIN + int(3 * SPACE / 2), SPACE * 2 , SPACE * 2)
+    WELCOME_POSITION = pygame.Rect(int(GUI_WIDTH / 2) - int(3 * SPACE), int(GUI_HEIGHT / 2) - int(SPACE * 3), SPACE * 5, SPACE * 5)
+    #TEXT_POSITION = pygame.Rect(int(GUI_WIDTH / 2), Y_MARGIN + int(SPACE * 2), SPACE * 2, SPACE)
     CLOCK = pygame.time.Clock()
 
 def dragTokenEvent(board, player):
@@ -145,6 +152,21 @@ def create_board():
     for x in range(BOARD_COLUMNS):
         board.append([EMPTY] * BOARD_ROWS)
     return board
+
+def welcome_screen():
+    DISPLAY.fill(WHITE)
+    canvas = WELCOME_POSITION
+    image = WELCOME_IMAGE
+    timeWaited = 0
+    while timeWaited <= 3000:
+        DISPLAY.blit(image, canvas)
+        # text = pygame.font.Font.render(FONT, "Welcome to the Connect-4 Game!", True, BLUE)
+        # DISPLAY.blit(text, WELCOME_POSITION)
+        refresh()
+        pygame.event.pump()
+        CLOCK.tick(FPS)
+        timeWaited += 60
+
 
 def end_sequence(winner):
     image = P1_WINNER if winner == PLAYER1 else P2_WINNER
