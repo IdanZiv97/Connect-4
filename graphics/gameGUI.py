@@ -43,10 +43,10 @@ def run():
     BOARD_CELL = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/board.png")
     BOARD_CELL = pygame.transform.smoothscale(BOARD_CELL, (SPACE, SPACE))
     # end sequence objects
-    P1_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player1_winner.png")
-    P1_WINNER = pygame.transform.smoothscale(P1_WINNER, (SPACE * 4, SPACE * 4))
-    P2_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player2_winner.png")
-    P2_WINNER = pygame.transform.smoothscale(P2_WINNER, (SPACE * 4, SPACE * 4))
+    P1_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player1wins.png")
+    P1_WINNER = pygame.transform.smoothscale(P1_WINNER, (SPACE * 6, SPACE * 6))
+    P2_WINNER = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/player2wins.png")
+    P2_WINNER = pygame.transform.smoothscale(P2_WINNER, (SPACE * 6, SPACE * 6))
     # welcome screen
     WELCOME_IMAGE = pygame.image.load("/Users/idanziv/dev/Connect-4/graphics/images/welcome.png")
     WELCOME_IMAGE = pygame.transform.smoothscale(WELCOME_IMAGE, (SPACE * 5, SPACE * 5))
@@ -54,7 +54,7 @@ def run():
     # create place holder for non-moving objects - will use as drawing canvas
     RED_START_POSITION = pygame.Rect(int(SPACE / 2), GUI_HEIGHT - int(3 * SPACE / 2), SPACE, SPACE)
     BLACK_START_POSITION = pygame.Rect(GUI_WIDTH - int(3 * SPACE / 2), GUI_HEIGHT - int(3 * SPACE / 2), SPACE, SPACE)
-    END_IMAGE_POSITION = pygame.Rect(int(GUI_WIDTH / 2) - int(2 * SPACE), int(GUI_HEIGHT / 2) - int(SPACE * 2), SPACE * 4, SPACE * 4)
+    END_IMAGE_POSITION = pygame.Rect(int(GUI_WIDTH / 2) - int(3 * SPACE), int(GUI_HEIGHT / 2) - int(SPACE * 3), SPACE * 6, SPACE * 6)
     TURN_INDICATOR = pygame.Rect(int(SPACE / 2), Y_MARGIN + int(3 * SPACE / 2), SPACE * 2 , SPACE * 2)
     WELCOME_POSITION = pygame.Rect(int(GUI_WIDTH / 2) - int(3 * SPACE), int(GUI_HEIGHT / 2) - int(SPACE * 3), SPACE * 5, SPACE * 5)
     #TEXT_POSITION = pygame.Rect(int(GUI_WIDTH / 2), Y_MARGIN + int(SPACE * 2), SPACE * 2, SPACE)
